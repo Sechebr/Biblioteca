@@ -54,9 +54,21 @@ def getBookBorrowing():
     result = con.execute('SELECT livros.titulo, usuarios.nome, usuarios.sobrenome, emprestimos.id, emprestimos.data_emprestimo, emprestimos.data_devolucao\
                          FROM livros\
                          INNER JOIN emprestimos ON livros.id = emprestimos.id_livro\
-                         INNER JOIN usuarios ON usuarios.id = emprestimos.id_usuario\
-                         WHERE emprestimos.data_devolucao NOT NULL').fetchall()
+                         INNER JOIN usuarios ON usuarios.id = emprestimos.id_usuario').fetchall()
+    #WHERE emprestimos.data_devolucao NOT NULL
     con.close()
+    if not result:
+        print(r'Nenhum Livro emprestado foi Encontrado na Biblioteca.')
+        return
+    else:
+        print("Livros na emprestados: \n")
+        for livro in result:
+            print(f'Titulo: {livro[0]}')
+            print(f'Nome: {livro[1]}')
+            print(f'Sobrenome: {livro[2]}')
+            print(f'Data do emprestimo: {livro[4]}')
+            print(f'Data de devolucao: {livro[5]}')
+            print('\n')
     return result
 
 #function for update status of book
@@ -68,7 +80,7 @@ def updateBorrowing(id_emprestimo, data_devolucao):
 
 #functio for menu
 def menu():
-    print('****************** \n MENU \n ************')
+    print('************************************ \n               MENU \n************************************')
     print('1. Adicionar livro')
     print('2. Adicionar usuario')
     print('3. Listar livros')
